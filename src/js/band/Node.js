@@ -1,0 +1,34 @@
+export default class Node{
+    constructor(text,color){
+        this.text=text;
+        this.color=color;
+    }
+    draw(ctx){
+        ctx.beginPath();
+        //水滴
+        ctx.fillStyle=this.color;
+        ctx.arc(9,9,9,Math.PI,0);
+        ctx.moveTo(18,9)
+        ctx.quadraticCurveTo(18,15,9,24)
+        ctx.quadraticCurveTo(0,15,0,9)
+        ctx.fill();
+        //文字
+        ctx.fillStyle="#fff";
+        ctx.font='14px Microsoft YaHei';
+        ctx.textAlign='center';
+        ctx.fillText(this.text,9,14);
+        //矩形
+        ctx.strokeStyle='#00B38A';
+        ctx.fillStyle='#fff'
+        ctx.beginPath();
+        ctx.moveTo(5,24);
+        ctx.lineTo(13,24);
+        ctx.lineTo(13,36);
+        ctx.lineTo(5,36);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+        ctx.restore();
+        ctx.translate(50,50);
+    }
+}

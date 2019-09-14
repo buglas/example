@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  background-color: white;
+}
+#rec {
+  height: 943px;
+  background-color: #17174b;
+  background-image: url("../images/map.jpg");
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+}
+.info {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  transition: opacity 400ms;
+  border-radius: 3px;
+}
+.info-act {
+  opacity: 1;
+}
+.info-text {
+  padding: 0 12px;
+  font-size: 12px;
+  line-height: 28px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 3px;
+}
+.info-trg {
+  text-align: center;
+}
+/*# sourceMappingURL=chinamap.css.map */
