@@ -1,55 +1,57 @@
+import {
+    Scene,PerspectiveCamera,WebGLRenderer,BoxBufferGeometry,
+    BufferGeometry,MeshBasicMaterial,LineBasicMaterial,Mesh,Line,
+    Vector3,CatmullRomCurve3
+} from 'three';
+import OrbitControls from 'three-orbitcontrols'
+
 const canvas = document.querySelector('#c');
-const width = canvas.clientWidth;
-const height = canvas.clientHeight;
-const renderer = new THREE.WebGLRenderer({canvas});
-renderer.setSize(width, height, false);
+const {innerWidth,innerHeight}=window;
+const renderer = new WebGLRenderer({canvas});
+renderer.setSize(innerWidth, innerHeight, false);
 const fov = 45;
-const aspect = width / height;
+const aspect = innerWidth / innerHeight;
 const near = 0.01;
 const far = 10;
-const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+const camera = new PerspectiveCamera(fov, aspect, near, far);
 camera.position.set(0, 2, 0);
 camera.updateProjectionMatrix();
-const controls = new THREE.OrbitControls(camera, canvas);
-const scene = new THREE.Scene();
+const controls = new OrbitControls(camera, canvas);
+const scene = new Scene();
 
+//建立路径
 let curve;
-let curveObject;
 {
     const points = [
-        [0.5,0,0.5],
-        [-0.5,0,0.5],
-        [-0.5,0,-0.5],
+        new Vector3(0.5,0,0.5),
+        new Vector3(-0.5,0,0.5),
+        new Vector3(-0.5,0,-0.5),
     ];
-    curve = new THREE.CatmullRomCurve3(
-        points.map((p, ndx) => {
-            return (new THREE.Vector3()).set(...p);
-        }),
-        true,
-        'catmullrom',
-        0.01
-    );
+    //三维样条线
+    //顶点，是否闭合，圆滑方式，圆滑力度
+    curve = new CatmullRomCurve3(points,true,'catmullrom', 0.01);
+    //建立辅助线，用于查看路径
     {
         const points = curve.getPoints(6);
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const material = new THREE.LineBasicMaterial({color: 0xff0000});
-        curveObject = new THREE.Line(geometry, material);
+        const geometry = new BufferGeometry().setFromPoints(points);
+        const material = new LineBasicMaterial({color: 0xff0000});
+        const curveObject = new Line(geometry, material);
         scene.add(curveObject);
     }
 }
-
+//建立运动物体
 let car;
 {
-    const geometry =new THREE.BoxBufferGeometry(.1,.1,.2);
-    const material = new THREE.MeshBasicMaterial( {color: 0xcccccc} );
-    car = new THREE.Mesh( geometry, material );
+    const geometry =new BoxBufferGeometry(.1,.1,.2);
+    const material = new MeshBasicMaterial( {color: 0xcccccc} );
+    car = new Mesh( geometry, material );
     scene.add(car);
 }
 
 //汽车位置
-const carPosition = new THREE.Vector3();
+const carPosition = new Vector3();
 //汽车目标点
-const carTarget = new THREE.Vector3();
+const carTarget = new Vector3();
 function render(time) {
     //将递增的时间转化为距离
     let distance = time*0.0002;  // convert to seconds
@@ -71,3 +73,10 @@ function render(time) {
     requestAnimationFrame(render);
 }
 requestAnimationFrame(render);
+
+window.onresize=function(){
+    const {innerWidth,innerHeight}=window;
+    camera.aspect=innerWidth/innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+}

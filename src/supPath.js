@@ -1,4 +1,4 @@
-    import {
+import {
     Scene,PerspectiveCamera,WebGLRenderer,Color,
     Geometry,
     AxesHelper,PlaneGeometry,PlaneBufferGeometry,SphereGeometry,BoxGeometry,BoxBufferGeometry,CircleBufferGeometry,
