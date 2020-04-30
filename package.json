@@ -9,7 +9,7 @@
     "@babel/runtime-corejs3": "^7.5.5",
     "babel-loader": "^8.0.0-beta.0",
     "expose-loader": "^0.7.5",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "three": "^0.108.0",
     "three-orbitcontrols": "^2.102.2",
     "webpack": "^4.39.2",
